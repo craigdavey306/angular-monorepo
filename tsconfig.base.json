@@ -14,7 +14,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@bt-libs/shared/ui/common-components": [
+        "libs/shared/ui/common-components/src/index.ts"
+      ],
+      "@business-tools/workspace-generators-plugin": [
+        "libs/workspace-generators-plugin/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

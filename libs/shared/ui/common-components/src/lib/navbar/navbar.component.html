@@ -1,0 +1,30 @@
+<nav data-test-id="nav-bar">
+  <div>
+    @for (navbarItem of navbarItems(); track navbarItem.route; let i = $index) {
+    <a
+      [attr.data-test-id]="'nav-item-' + i"
+      [routerLink]="navbarItem.route"
+      class="navbarItem"
+    >
+      {{ navbarItem.label }}
+    </a>
+    }
+  </div>
+  <div>
+    <select
+      #selectList
+      data-test-id="lang-select"
+      (change)="languageChange.emit(selectList.value)"
+    >
+      @for (lang of languages(); track lang) {
+      <option
+        [attr.data-test-id]="'lang-item-' + lang"
+        (click)="languageChange.emit(lang)"
+        [value]="lang"
+      >
+        {{ lang }}
+      </option>
+      }
+    </select>
+  </div>
+</nav>
