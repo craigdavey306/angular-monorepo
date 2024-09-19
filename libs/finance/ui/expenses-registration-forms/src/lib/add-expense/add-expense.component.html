@@ -1,0 +1,47 @@
+<div class="form-container">
+  <form [formGroup]="addExpenseForm">
+    <div class="form-field">
+      <label for="description">Description</label>
+      <input type="text" formControlName="description" />
+      <span
+        *ngIf="
+          addExpenseForm.touched &&
+          addExpenseForm.controls.description.hasError('required')
+        "
+      >
+        This field is required</span
+      >
+    </div>
+    <fieldset formControlName="amount">
+      <div class="form-field">
+        <label for="amountExclVat">Amount excl. VAT</label>
+        <input type="number" formControlName="amountExclVat" />
+      </div>
+      <div class="form-field">
+        <label for="vatPercentage">VAT percentage</label>
+        <input type="number" formControlName="vatPercentage" />
+      </div>
+    </fieldset>
+    <div class="form-field">
+      <label for="date">Date</label>
+      <input type="date" id="date" name="date" formControlName="date" />
+    </div>
+    <fieldset formArrayName="tags">
+      <div
+        class="form-field"
+        *ngFor="let item of addExpenseForm.controls.tags.controls; index as i"
+      >
+        <label for="tag-{{ i }}">Tag</label>
+        <div class="tag-field">
+          <input type="text" [formControlName]="i" id="tag-{{ i }}" />
+          <div>
+            <button *ngIf="i > 0" (click)="removeTag(i)">-</button>
+            <button (click)="addTag()">+</button>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>

@@ -1,0 +1,8 @@
+@defer (when activeWidget === widgets.Clock) {
+<bt-libs-ui-clock-widget *ngIf="activeWidget === widgets.Clock" />
+} @defer (when activeWidget === widgets.Weather) {
+<bt-libs-ui-weather-widget
+  *ngIf="activeWidget === widgets.Weather"
+  [widgetData]="widgetData"
+/>
+}

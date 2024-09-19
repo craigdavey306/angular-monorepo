@@ -1,1 +1,21 @@
 <p>expenses-overview-page works!</p>
+
+<bt-libs-ui-modal [(shown)]="addExpenseShown" [title]="'Add expenses'">
+  <bt-libs-ui-add-expense-form #form (addExpense)="addExpense($event)" />
+</bt-libs-ui-modal>
+
+<bt-libs-ui-select
+  (selectedChange)="onOptionChange($event)"
+  [optionTemplate]="expenseSelect"
+  [options]="[
+    { expense: 'Food', amount: 10 },
+    { expense: 'Gas', amount: 20 }
+  ]"
+>
+</bt-libs-ui-select>
+
+<ng-template #expenseSelect let-expense>
+  <span>Product: {{ expense.expense }}, Amount: {{ expense.amount }}</span>
+</ng-template>
+
+<bt-libs-ui-defer-widget [activeWidget]="widget" [widgetData]="widgetData" />
