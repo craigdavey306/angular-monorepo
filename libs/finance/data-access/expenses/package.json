@@ -1,0 +1,9 @@
+{
+  "name": "@bt-libs/finance/data-access/expenses",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/core": "^18.2.0",
+    "@bt-libs/shared/data-access/generic-http": "0.0.1"
+  },
+  "sideEffects": false
+}

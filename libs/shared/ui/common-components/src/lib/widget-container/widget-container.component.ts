@@ -23,7 +23,7 @@ import { WidgetOption } from './widget-loaders';
 export class WidgetContainerComponent implements OnChanges {
   @Input() injector!: Injector;
   @Input({ required: true }) widgetLoader!: WidgetOption;
-  widget: widget = { component: null, injector: null };
+  widget: widget = { component: null, injector: undefined };
 
   protected readonly cd = inject(ChangeDetectorRef);
 
@@ -41,5 +41,5 @@ export class WidgetContainerComponent implements OnChanges {
 export interface widget {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: Type<any> | null;
-  injector: Injector | null;
+  injector?: Injector;
 }
