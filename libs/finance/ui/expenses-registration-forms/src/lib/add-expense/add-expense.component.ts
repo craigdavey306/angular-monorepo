@@ -15,6 +15,7 @@ import {
 } from '@angular/forms';
 import { AddExpenseReactive } from './add-expense.interface';
 import { maxWordCountValidator } from '@bt-libs/shared/util/form-validators';
+import { ExpenseModel } from '@bt-libs/finance/data-access/expenses';
 
 @Component({
   selector: 'bt-libs-ui-add-expense-form',
@@ -35,7 +36,7 @@ export class AddExpenseComponent {
     });
   }
 
-  @Output() addExpense = new EventEmitter<AddExpenseReactive>();
+  @Output() addExpense = new EventEmitter<ExpenseModel>();
 
   addExpenseForm = new FormGroup({
     description: new FormControl('', [

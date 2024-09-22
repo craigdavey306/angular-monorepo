@@ -2,8 +2,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
+  effect,
   inject,
   OnInit,
+  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -16,6 +19,8 @@ import {
   SelectComponent,
   DeferWidgetComponent,
 } from '@bt-libs/shared/ui/common-components';
+
+import { ExpenseModel } from '@bt-libs/finance/data-access/expenses';
 
 @Component({
   selector: 'app-expenses-overview-page',
@@ -31,30 +36,56 @@ import {
   styleUrl: './expenses-overview-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExpensesOverviewPageComponent implements OnInit {
-  addExpenseShown = false;
-  widget!: Widgets;
-  widgetData: any = null;
+export class ExpensesOverviewPageComponent {
+  expenses = signal<ExpenseModel[]>([
+    {
+      id: 1,
+      description: 'Office Supplies',
+      amount: {
+        amountExclVat: 100,
+        vatPercentage: 20,
+      },
+      date: '2024-01-04',
+      tags: ['printer'],
+    },
+    {
+      id: 2,
+      description: 'Travel',
+      amount: {
+        amountExclVat: 50,
+        vatPercentage: 20,
+      },
+      date: '2024-01-04',
+      tags: ['train', 'public transport'],
+    },
+  ]);
+  showAddExpenseModal = signal(false);
+  showSummary = signal(false);
+  showBtnText = computed(() => {
+    console.log('summaryBtnText');
+    return this.showSummary() ? 'Hide summary' : 'Show summary';
+  });
+  totalInclVat = computed(() =>
+    this.showSummary()
+      ? this.expenses().reduce(
+          (total, { amount: { amountExclVat, vatPercentage } }) =>
+            (amountExclVat / 100) * (100 + vatPercentage) + total,
+          0
+        )
+      : null
+  );
+  modalTitle = 'Add expenses';
 
-  protected readonly cd = inject(ChangeDetectorRef);
+  e = effect(() => {
+    console.log('effect', this.showSummary());
+  });
 
-  ngOnInit(): void {
-    setInterval(() => {
-      this.widget =
-        this.widget === Widgets.Clock ? Widgets.Weather : Widgets.Clock;
-      this.widgetData =
-        this.widget === Widgets.Clock
-          ? null
-          : { city: 'New York', message: 'Sunny' };
-      this.cd.detectChanges();
-    }, 5000);
+  onSummaryChange() {
+    this.showSummary.update((showSummary) => !showSummary);
   }
 
-  addExpense(expense: AddExpenseReactive) {
-    console.log('addExpense ==> ', expense);
-  }
-
-  onOptionChange(value: unknown) {
-    console.log('onOPtionChange ==>', value);
+  onAddExpense(expenseToAdd: ExpenseModel): void {
+    this.expenses.update((expenses) => [...expenses, expenseToAdd]);
+    this.showAddExpenseModal.set(false);
   }
 }
